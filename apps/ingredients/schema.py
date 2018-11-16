@@ -1,9 +1,38 @@
-import graphene
+from graphene import relay, ObjectType, Node
 
 from graphene_django import DjangoObjectType
+from graphene_django.filter import DjangoFilterConnectionField
 
+# Modelos
 from apps.ingredients.models import Category, Ingredient
 
+class CategoryNode(DjangoObjectType):
+
+    class Meta:
+        model = Category
+        filter_fields = ['name', 'ingredients']
+        interfaces = (Node, )
+
+class IngredientNode(DjangoObjectType):
+
+    class Meta:
+        model = Ingredient
+        filter_fields = {
+            'name': ['exact', 'icontains', 'istartswith'],
+            'notes': ['exact', 'icontains'],
+            'category': ['exact'],
+            'category__name': ['exact'],
+        }
+        interfaces = (relay.Node, )
+
+class QueryIngredients(object):
+    category = Node.Field(CategoryNode)
+    all_categories = DjangoFilterConnectionField(CategoryNode)
+
+    ingredient = Node.Field(IngredientNode)
+    all_ingredients = DjangoFilterConnectionField(IngredientNode)
+
+"""
 class CategoryType(DjangoObjectType):
 
     class Meta:
@@ -52,4 +81,4 @@ class QueryIngredients(object):
 
     def resolve_all_ingredients(self, info, **kwargs):
         return Ingredient.objects.select_related('category').all()
-
+"""
