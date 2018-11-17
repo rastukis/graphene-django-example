@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'graphene_django',
-    'apps.ingredients'
+    'apps.ingredients',
+    'apps.posts',
 ]
 
 MIDDLEWARE = [
