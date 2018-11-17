@@ -24,7 +24,7 @@ from apps.posts.views import PrivateGraphQLView
 urlpatterns = [
     path('admin/', admin.site.urls),
     # Para usar la autenticacion del usuario
-    path('graphql/', PrivateGraphQLView.as_view(graphiql=True)),
+    #path('graphql/', PrivateGraphQLView.as_view(graphiql=True)),
     # Sin autenticacion
-    # url(r'^graphql', GraphQLView.as_view(graphiql=True)),
+    url(r'^graphql', GraphQLView.as_view(graphiql=True)),
 ]

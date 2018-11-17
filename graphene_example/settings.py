@@ -124,6 +124,9 @@ STATIC_URL = '/static/'
 
 ######################### GRAPHENE #########################
 GRAPHENE = {
-    'SCHEMA': 'graphene_example.schema.schema'
+    'SCHEMA': 'graphene_example.schema.schema',
+    'MIDDLEWARE': [
+        'graphene_django.debug.DjangoDebugMiddleware',
+    ]
 }
 ######################### /GRAPHENE #########################
