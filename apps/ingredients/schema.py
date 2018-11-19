@@ -2,9 +2,13 @@ from graphene import relay, ObjectType, Node
 
 from graphene_django import DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
+from graphene_django.rest_framework.mutation import SerializerMutation
 
 # Modelos
 from apps.ingredients.models import Category, Ingredient
+
+# Serializer
+from apps.ingredients.serializers import IngredientSerializer
 
 class CategoryNode(DjangoObjectType):
 
@@ -24,6 +28,13 @@ class IngredientNode(DjangoObjectType):
             'category__name': ['exact'],
         }
         interfaces = (relay.Node, )
+
+class IngredientMutation(SerializerMutation):
+
+    class Meta:
+        serializer_class = IngredientSerializer
+        model_operations = ['create', 'update']
+        lookup_field = 'id'
 
 class QueryIngredients(object):
     category = Node.Field(CategoryNode)
